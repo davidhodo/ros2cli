@@ -60,7 +60,9 @@ class TopicNameCompleter:
 def import_message_type(topic_name, message_type):
     # TODO(dirk-thomas) this logic should come from a rosidl related package
     try:
-        package_name, *message_name = message_type.split('/')
+        package_name, middle_module, *message_name = message_type.split('/')
+        if not middle_module:
+            middle_module = 'msg'
         if not package_name or not message_name or not all(message_name):
             raise ValueError()
     except ValueError:
@@ -72,7 +74,7 @@ def import_message_type(topic_name, message_type):
         middle_module = 'action'
 
     module = importlib.import_module(package_name + '.' + middle_module)
-    return getattr(module, message_name[-1])
+    return getattr(module, message_name)
 
 
 def message_type_completer(**kwargs):
