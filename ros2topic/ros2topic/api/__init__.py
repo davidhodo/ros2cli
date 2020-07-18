@@ -60,7 +60,7 @@ class TopicNameCompleter:
 def import_message_type(topic_name, message_type):
     # TODO(dirk-thomas) this logic should come from a rosidl related package
     try:
-        package_name, middle_module, *message_name = message_type.split('/')
+        package_name, middle_module, message_name = message_type.split('/')
         if not middle_module:
             middle_module = 'msg'
         if not package_name or not message_name or not all(message_name):
@@ -69,7 +69,6 @@ def import_message_type(topic_name, message_type):
         raise RuntimeError('The passed message type is invalid')
 
     # TODO(sloretz) node API to get topic types should indicate if action or msg
-    middle_module = 'msg'
     if topic_name.endswith('/_action/feedback'):
         middle_module = 'action'
 
